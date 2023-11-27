@@ -10,7 +10,7 @@ product name is "a product".
 ## Requirements
 
 Tested with Python 3.7:
-```
+```sh
 pip install -r requirements.txt
 ```
 
@@ -37,7 +37,7 @@ B006NNLX2C Norpro Silicone Steamer with Insert, Green
 Referring to the `test.csv` file provided in Copycat's `gold_summs` directory,
 you can compute the prevalence of the greedy summaries distributed in this
 repository by executing
-```
+```sh
 python verbose-prevalence-mnli-doc-text.py /path/to/gold_summs/test.csv ../data/product_names.txt ../greedy-outputs/test-greedy-summaries.txt greedy-prevalence.txt
 ```
 
@@ -52,3 +52,21 @@ The overall (average) prevalence is reported on stdout.
 Expected result: `Total prevalence: 0.4744`.
 
 
+## Object-Oriented wrapper
+
+Alternatively, if you want to use the metric within your own code, you can use the OO version:
+
+```python
+from prevalence_metric import PrevalenceMetric
+
+metric = PrevalenceMetric()
+
+prevalence, redundant_fraction, trivial_fraction = metric.get_prevalence(
+    reviews, # a list of lists of reviews
+    generated_summaries, # a list of summaries
+    product_names, # a list of product names
+    trivial_template = "I bought {:}.",
+    trivial_default = "a product",
+    batch_size = 32,
+)
+```
